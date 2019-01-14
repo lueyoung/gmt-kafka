@@ -25,8 +25,10 @@ spec:
           image: {{.image}} 
           command: ["/usr/local/bin/entrypoint.sh"]
           env:
+            - name: ZOOKEEPER 
+              value: "{{.zoo}}"
             - name: DISCOVERY 
-              value: {{.zoo}} 
+              value: {{.discovery}} 
             - name: POD_IP
               valueFrom:
                 fieldRef:

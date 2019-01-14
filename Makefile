@@ -11,7 +11,8 @@ SCRIPTS_CM=${NAME}-scripts
 CONF_CM=${NAME}-conf
 ENV_CM=${NAME}-env
 IMAGE=wurstmeister/kafka:latest
-ZOO=zoo
+DISCOVERY=zoo
+ZOO=zoo1:2181,zoo2:2181,zoo3:2181
 
 all: deploy
 
@@ -41,6 +42,7 @@ sed:
 	@find ${MANIFEST} -type f -name "*.yaml" | xargs sed -i s?"{{.conf.cm}}"?"${CONF_CM}"?g
 	@find ${MANIFEST} -type f -name "*.yaml" | xargs sed -i s?"{{.env.cm}}"?"${ENV_CM}"?g
 	@find ${MANIFEST} -type f -name "*.yaml" | xargs sed -i s?"{{.zoo}}"?"${ZOO}"?g
+	@find ${MANIFEST} -type f -name "*.yaml" | xargs sed -i s?"{{.discovery}}"?"${DISCOVERY}"?g
 
 deploy: OP=create
 deploy: cp sed

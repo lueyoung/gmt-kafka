@@ -59,7 +59,7 @@ mkcm:
 	-@kubectl -n ${NAMESPACE} delete configmap $(CM_NAME)
 	@kubectl -n ${NAMESPACE} ${OP} configmap $(CM_NAME) --from-file ${CONF}/. --from-file ${SCRIPTS}/.
 
-test:
+status:
 	-@kubectl exec -it zoo1-0 -- zkServer.sh status
 	-@kubectl exec -it zoo2-0 -- zkServer.sh status
 	@kubectl exec -it zoo3-0 -- zkServer.sh status

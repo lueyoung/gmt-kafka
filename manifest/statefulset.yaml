@@ -25,6 +25,8 @@ spec:
           image: wurstmeister/kafka:latest 
           command: ["/usr/local/bin/entrypoint.sh"]
           env:
+            - name: ZOOKEEPER 
+              value: "zoo1:2181,zoo2:2181,zoo3:2181,"
             - name: DISCOVERY 
               value: zoo 
             - name: POD_IP

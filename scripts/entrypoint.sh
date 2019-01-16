@@ -1,6 +1,9 @@
 #!/bin/bash
 
 set -ex
+info() {
+    echo $(date -d today +'%Y-%m-%d %H:%M:%S') - [INFO] - "$*"
+}
 
 ZOOKEEPER_PORT=${ZOOKEEPER_PORT:-"2181"}
 ZK_PORT=${ZOOKEEPER_PORT}
@@ -10,12 +13,12 @@ THIS_NAME=$(hostname -s)
 ALIAS=$(echo $THIS_NAME | awk -F '-' '{print $1}')
 ID=$(echo $THIS_NAME | awk -F '-' '{print $2}')
 #ID=$(echo $THIS_NAME | awk -F '-' '{print $2}' | awk -F '.' '{print $1}')
-echo "$(date -d today +'%Y-%m-%d %H:%M:%S') - $0 - Nodes in this cluster: $N_NODES"
-echo "$(date -d today +'%Y-%m-%d %H:%M:%S') - $0 - IP: ${THIS_IP}"
-echo "$(date -d today +'%Y-%m-%d %H:%M:%S') - $0 - ID: ${ID}"
-echo "$(date -d today +'%Y-%m-%d %H:%M:%S') - $0 - Alias: ${ALIAS}"
-echo "$(date -d today +'%Y-%m-%d %H:%M:%S') - $0 - svc discovery: $DISCOVERY"
-echo "$(date -d today +'%Y-%m-%d %H:%M:%S') - $0 - pod namespace: $POD_NAMESPACE"
+info Nodes in this cluster: $N_NODES
+info IP: ${THIS_IP}
+info ID: ${ID}
+info Alias: ${ALIAS}
+info svc discovery: $DISCOVERY
+info pod namespace: $POD_NAMESPACE
 
 # get zk info
 SEP=''

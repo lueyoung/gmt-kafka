@@ -12,6 +12,7 @@ spec:
       labels:
         component: kafka
     spec:
+      serviceAccountName: admin
       terminationGracePeriodSeconds: 10
       #initContainers:
        # - name: init 
@@ -22,7 +23,7 @@ spec:
            # - "for i in $(seq -s ' ' 1 60); do if getent hosts zoo1:2181,zoo2:2181,zoo3:2181.default; then exit 0; fi; sleep 1; done; exit 1"
       containers:
         - name: kafka
-          image: wurstmeister/kafka:latest 
+          image: gmt.reg.me/test/kafka:latest 
           command: ["/usr/local/bin/entrypoint.sh"]
           env:
             - name: ZOOKEEPER 

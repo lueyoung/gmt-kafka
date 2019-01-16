@@ -12,6 +12,7 @@ spec:
       labels:
         component: {{.name}}
     spec:
+      serviceAccountName: {{.service.account}}
       terminationGracePeriodSeconds: 10
       #initContainers:
        # - name: init 

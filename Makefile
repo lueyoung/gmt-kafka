@@ -20,16 +20,10 @@ SERVICE_ACCOUNT=admin
 all: build push deploy
 
 build:
-	@docker build -t ${IMAGE2} .
-	@docker build -t ${IMAGE4} .
-	@docker build -t ${IMAGE5} -f Dockerfile.${NAME5} .
-	@docker build -t ${IMAGE6} -f Dockerfile.${NAME6} .
+	@docker build -t ${IMAGE} .
 
 push:
-	@docker push ${IMAGE2}
-	@docker push ${IMAGE4}
-	@docker push ${IMAGE5}
-	@docker push ${IMAGE6}
+	@docker push ${IMAGE}
 
 cp:
 	@find ${MANIFEST} -type f -name "*.sed" | sed s?".sed"?""?g | xargs -I {} cp {}.sed {}
@@ -60,6 +54,10 @@ clean:
 	@kubectl -n ${NAMESPACE} ${OP} configmap $(SCRIPTS_CM)
 	@kubectl -n ${NAMESPACE} ${OP} configmap $(CONF_CM)
 	@kubectl ${OP} -f ${MANIFEST}/statefulset.yaml
+	@kubectl ${OP} -f ${MANIFEST}/rbac.yaml
+
+cleani-rbac: OP=delete
+clean-rbac:
 	@kubectl ${OP} -f ${MANIFEST}/rbac.yaml
 
 mkcm: OP=create

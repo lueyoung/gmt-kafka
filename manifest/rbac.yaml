@@ -9,7 +9,7 @@ metadata:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: admin
+  name: admin-in-default
 subjects:
   - kind: ServiceAccount
     name: admin

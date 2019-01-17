@@ -9,7 +9,7 @@ metadata:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{.service.account}}
+  name: {{.service.account}}-in-{{.namespace}}
 subjects:
   - kind: ServiceAccount
     name: {{.service.account}}

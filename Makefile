@@ -7,17 +7,19 @@ NAMESPACE=default
 LOCAL_REGISTRY=gmt.reg.me/test
 LABELS_KEY=app
 LABELS_VALUE=${NAME}
-IMAGE_PULL_POLICY=Always
+IMAGE_PULL_POLICY=IfNotPresent
 SCRIPTS_CM=${NAME}-scripts
 CONF_CM=${NAME}-conf
 ENV_CM=${NAME}-env
 IMAGE=wurstmeister/kafka:latest
-IMAGE=${LOCAL_REGISTRY}/${NAME}:latest
+#IMAGE=${LOCAL_REGISTRY}/${NAME}:latest
 DISCOVERY=zoo
+DATABASE=http://database-headless.database:8080/api/svc/db
 ZOO=zoo1:2181,zoo2:2181,zoo3:2181
 SERVICE_ACCOUNT=admin
 
-all: build push deploy
+all: deploy
+#all: build push deploy
 
 build:
 	@docker build -t ${IMAGE} .
@@ -41,12 +43,12 @@ sed:
 	@find ${MANIFEST} -type f -name "*.yaml" | xargs sed -i s?"{{.zoo}}"?"${ZOO}"?g
 	@find ${MANIFEST} -type f -name "*.yaml" | xargs sed -i s?"{{.service.account}}"?"${SERVICE_ACCOUNT}"?g
 	@find ${MANIFEST} -type f -name "*.yaml" | xargs sed -i s?"{{.discovery}}"?"${DISCOVERY}"?g
+	@find ${MANIFEST} -type f -name "*.yaml" | xargs sed -i s?"{{.database}}"?"${DATABASE}"?g
 
 deploy: OP=create
 deploy: cp sed
 	@kubectl -n ${NAMESPACE} ${OP} configmap $(SCRIPTS_CM) --from-file ${SCRIPTS}/.
 	@kubectl -n ${NAMESPACE} ${OP} configmap $(CONF_CM) --from-file ${CONF}/.
-	@kubectl ${OP} -f ${MANIFEST}/rbac.yaml
 	@kubectl ${OP} -f ${MANIFEST}/statefulset.yaml
 
 clean: OP=delete
@@ -54,7 +56,6 @@ clean:
 	@kubectl -n ${NAMESPACE} ${OP} configmap $(SCRIPTS_CM)
 	@kubectl -n ${NAMESPACE} ${OP} configmap $(CONF_CM)
 	@kubectl ${OP} -f ${MANIFEST}/statefulset.yaml
-	@kubectl ${OP} -f ${MANIFEST}/rbac.yaml
 
 cleani-rbac: OP=delete
 clean-rbac:

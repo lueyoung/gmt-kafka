@@ -12,7 +12,6 @@ spec:
       labels:
         component: {{.name}}
     spec:
-      serviceAccountName: {{.service.account}}
       terminationGracePeriodSeconds: 10
       #initContainers:
        # - name: init 
@@ -30,6 +29,8 @@ spec:
               value: "{{.zoo}}"
             - name: DISCOVERY 
               value: {{.discovery}} 
+            - name: DATABASE 
+              value: {{.database}} 
             - name: POD_IP
               valueFrom:
                 fieldRef:

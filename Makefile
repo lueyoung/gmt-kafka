@@ -50,12 +50,16 @@ deploy: cp sed
 	@kubectl -n ${NAMESPACE} ${OP} configmap $(SCRIPTS_CM) --from-file ${SCRIPTS}/.
 	@kubectl -n ${NAMESPACE} ${OP} configmap $(CONF_CM) --from-file ${CONF}/.
 	@kubectl ${OP} -f ${MANIFEST}/statefulset.yaml
+	@kubectl ${OP} -f ${MANIFEST}/nodeport-svc.yaml
+	@kubectl ${OP} -f ${MANIFEST}/services.yaml
 
 clean: OP=delete
 clean:
 	@kubectl -n ${NAMESPACE} ${OP} configmap $(SCRIPTS_CM)
 	@kubectl -n ${NAMESPACE} ${OP} configmap $(CONF_CM)
 	@kubectl ${OP} -f ${MANIFEST}/statefulset.yaml
+	@kubectl ${OP} -f ${MANIFEST}/nodeport-svc.yaml
+	@kubectl ${OP} -f ${MANIFEST}/services.yaml
 
 cleani-rbac: OP=delete
 clean-rbac:

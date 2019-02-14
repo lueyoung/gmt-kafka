@@ -36,6 +36,7 @@ cat /tmp/server.properties > /etc/server.properties
 sed -i "s/{{broker.id}}/${ID}/g" /etc/server.properties
 #sed -i "s/\#delete.topic.enable=true/delete.topic.enable=true/g" /opt/kafka/config/server.properties
 sed -i "s/{{zookeeper.nodes}}/${ZK_HOSTS}/g" /etc/server.properties
+sed -i "s/{{.hostname}}/${THIS_NAME}/g" /etc/server.properties
 echo -e "\n\nlog.cleaner.enable=true\n" >> /etc/server.properties
 
 kafka-server-start.sh /etc/server.properties

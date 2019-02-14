@@ -2,7 +2,7 @@
 
 set -ex
 info() {
-    echo $(date -d today +'%Y-%m-%d %H:%M:%S') - [INFO] - "$*"
+    echo $(date) - [INFO] - "$*"
 }
 chk() {
 json=$(curl -s http://restfulsvc.default:8080/api/svc/kafka-np)
@@ -57,6 +57,7 @@ sed -i "s/{{zookeeper.nodes}}/${ZK_HOSTS}/g" /etc/server.properties
 #sed -i "s/{{.hostname}}/${THIS_NAME}/g" /etc/server.properties
 #sed -i "s/{{.hostname}}/kafka-0,kafka-1,kafka-2/g" /etc/server.properties
 echo -e "\n\nlog.cleaner.enable=true\n" >> /etc/server.properties
+if false; then
 N=0
 while [[ $N -lt 3 ]]; do
   JSON=$(curl -s http://restfulsvc.default:8080/api/svc/kafka-np)
@@ -75,7 +76,8 @@ while [[ $N -lt 3 ]]; do
     fi
   done
 done
-HOSTS=$TMP
-sed -i "s/{{.hostname}}/${HOSTS}/g" /etc/server.properties
+HOSTS=kafka-0,kafka-1,kafka-2
+fi
+sed -i "s/{{.hostname}}/${THIS_NAME}/g" /etc/server.properties
 
 kafka-server-start.sh /etc/server.properties

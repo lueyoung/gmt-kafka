@@ -37,6 +37,7 @@ info ID: ${ID}
 info Alias: ${ALIAS}
 info svc discovery: $DISCOVERY
 info pod namespace: $POD_NAMESPACE
+info host ip: $HOST_IP
 
 # get zk info
 SEP=''
@@ -78,6 +79,7 @@ while [[ $N -lt 3 ]]; do
 done
 HOSTS=kafka-0,kafka-1,kafka-2
 fi
-sed -i "s/{{.hostname}}/${THIS_NAME}/g" /etc/server.properties
+#sed -i "s/{{.hostname}}/${THIS_NAME}/g" /etc/server.properties
+#sed -i "s/{{.hostip}}/${HOST_IP}/g" /etc/server.properties
 
 kafka-server-start.sh /etc/server.properties

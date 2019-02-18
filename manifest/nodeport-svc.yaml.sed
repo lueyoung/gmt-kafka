@@ -6,7 +6,8 @@ metadata:
 spec:
   type: NodePort
   selector:
-    component: kafka
+    #component: kafka
+    statefulset.kubernetes.io/pod-name: kafka-0
   ports:
     - port: 9092 
       targetPort: 9092
